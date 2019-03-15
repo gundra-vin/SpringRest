@@ -1,0 +1,19 @@
+node{
+    stage 'git checkout'
+    git 'http://172.18.2.18/gundravin/todoTaskManager-app.git'
+    
+    stage ('npm install'){
+        withEnv(["NPM_CONFIG_LOGLEVEL=warn"]){
+        bat("npm install")
+        }
+    }
+    stage('Test'){
+       bat("npm test --code-coverage") 
+    }
+    stage('Code Qualtiy check'){
+       bat("npm run lint") 
+    }
+        
+    stage ('build'){
+        bat("npm run build --prod --aot")
+    }
